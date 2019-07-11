@@ -6,6 +6,9 @@ import werkzeug.utils
 from odoo import http
 from odoo.http import request
 
+
+
+
 class DentalSiteController(http.Controller):
 
     @http.route(['/dental_management_perio_chart/web/<string:patient_id>'], type='http', auth='user')

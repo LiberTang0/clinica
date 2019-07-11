@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 from odoo import api, fields, models, _
 # from mock import DEFAULT
 from datetime import datetime, timedelta
@@ -1244,16 +1245,16 @@ class MedicalAppointment(models.Model):
     def create(self, vals):
         for appointmnet in self:
             if appointmnet.room_id.id == vals['room_id']:
-                history_start_date = datetime.strptime(appointmnet.appointment_sdate, '%Y-%m-%d %H:%M:%S')
+                history_start_date = datetime.strptime(str(appointmnet.appointment_sdate), '%Y-%m-%d %H:%M:%S')
                 print("\n\n history_start_date-----",history_start_date,type(history_start_date))
                 history_end_date = False
                 reservation_end_date = False
                 if appointmnet.appointment_edate:
-                    history_end_date = datetime.strptime(appointmnet.appointment_edate, '%Y-%m-%d %H:%M:%S')
-                reservation_start_date = datetime.strptime(vals['appointment_sdate'], '%Y-%m-%d %H:%M:%S')
+                    history_end_date = datetime.strptime(str(appointmnet.appointment_edate), '%Y-%m-%d %H:%M:%S')
+                reservation_start_date = datetime.strptime(str(vals['appointment_sdate']), '%Y-%m-%d %H:%M:%S')
 #                 if vals.has_key('appointment_edate') and vals['appointment_edate']:
                 if 'appointment_edate' in vals and vals['appointment_edate']:
-                    reservation_end_date = datetime.strptime(vals['appointment_edate'], '%Y-%m-%d %H:%M:%S')
+                    reservation_end_date = datetime.strptime(str(vals['appointment_edate']), '%Y-%m-%d %H:%M:%S')
                 if history_end_date and reservation_end_date:
                     if (history_start_date <= reservation_start_date < history_end_date) or (history_start_date < reservation_end_date <= history_end_date) or ((reservation_start_date < history_start_date) and (reservation_end_date >= history_end_date)):
                         raise ValidationError(_('Room  %s is booked in this reservation period!') % (appointmnet.room_id.name))
@@ -1266,12 +1267,12 @@ class MedicalAppointment(models.Model):
             if appointmnet.doctor.id == vals['doctor']:
                     reservation_end_date = False
                     history_end_date = False
-                    history_start_date = datetime.strptime(appointmnet.appointment_sdate, '%Y-%m-%d %H:%M:%S')
+                    history_start_date = datetime.strptime(str(appointmnet.appointment_sdate), '%Y-%m-%d %H:%M:%S')
                     if appointmnet.appointment_edate:
-                        history_end_date = datetime.strptime(appointmnet.appointment_edate, '%Y-%m-%d %H:%M:%S')
-                    reservation_start_date = datetime.strptime(vals['appointment_sdate'], '%Y-%m-%d %H:%M:%S')
+                        history_end_date = datetime.strptime(str(appointmnet.appointment_edate), '%Y-%m-%d %H:%M:%S')
+                    reservation_start_date = datetime.strptime(str(vals['appointment_sdate']), '%Y-%m-%d %H:%M:%S')
                     if vals['appointment_edate']:
-                        reservation_end_date = datetime.strptime(vals['appointment_edate'], '%Y-%m-%d %H:%M:%S')
+                        reservation_end_date = datetime.strptime(str(vals['appointment_edate']), '%Y-%m-%d %H:%M:%S')
                     print("\n -history_start_date--reservation_start_date-",reservation_end_date and history_end_date,history_start_date,reservation_start_date,reservation_end_date,history_end_date)
                     if (reservation_end_date and history_end_date ) and(  (history_start_date <= reservation_start_date < history_end_date) or (history_start_date < reservation_end_date <= history_end_date) or ((reservation_start_date < history_start_date) and (reservation_end_date >= history_end_date)) ):
                             raise ValidationError(_('Doctor  %s is booked in this reservation period !') % (appointmnet.doctor.name.name))

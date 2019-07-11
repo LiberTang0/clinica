@@ -26,6 +26,7 @@ class FinancingAgreement(models.Model):
     is_credit_card =  fields.Boolean('Credit Card')
     credit_card_number =  fields.Char('Credit Card Number')
     
+   
     
     
 #     def create(self, cr, uid, vals, context):
