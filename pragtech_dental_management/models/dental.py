@@ -1146,8 +1146,9 @@ class MedicalAppointment(models.Model):
         def compute_time(checkin_time, ready_time):
             now = datetime.now()
             if checkin_time and ready_time:
-                ready_time = datetime.strptime(ready_time, '%Y-%m-%d %H:%M:%S')
-                checkin_time = datetime.strptime(checkin_time, '%Y-%m-%d %H:%M:%S')
+                
+                ready_time = fields.Datetime.from_string(ready_time)
+                checkin_time = fields.Datetime.from_string(checkin_time)
                 delta = relativedelta (ready_time, checkin_time)
                 years_months_days = str(delta.hours) + "h " + str(delta.minutes) + "m " 
             else:
